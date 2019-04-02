@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <style>
+        
+        .button-item {
+            display: inline-block;
+        }
+        .btn-popup {
+            text-decoration: none;
+            outline: none;
+            display: inline-block;
+            margin: 10px 20px;
+            padding: 10px 30px;
+            position: relative;
+            border: 2px solid #1a1918;
+            color: #1a1918;
+            font-family: 'Montserrat', sans-serif; 
+            transition: .2s;
+        }
+        .btn-popup:after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            width: 100%;
+            height: 100%;
+            margin: auto;
+            border: 2px solid rgba(0,0,0,0);
+            transition: .2s;
+        }
+        .btn-popup:hover:after {
+            border-color: #1a1918;
+            width: calc(100% - 10px);
+            height: calc(100% + 10px);
+        }
+        
+        .bg-popup {
+            position: fixed;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            transition: opacity 500ms;
+            visibility: hidden;
+            transition: all .3s ease-in-out;
+            opacity: 0;
+            z-index: 1;
+        }
+        h1 {
+            text-align: center;
+            text-transform: capitalize;
+        }
+        p{
+            text-align: center;
+        }
+        .popup-block{
+            margin: 70px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 5px;
+            border: 2px solid #1a1918;
+            width: 30%;
+            position: absolute;
+            left: 0;
+            right: 0;
+            transition: all .3s ease-in-out;
+            z-index: 10;
+            visibility: hidden;
+            opacity: 0;
+        }
+        .close{
+            display: inline-block;
+            float: right;
+            font-size: 30px;
+            cursor: pointer;
+            height: 30px;
+            width: 30px;
+        }
+        .show-popup {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+    </style>
+        <div class="conteiner"></div>
+            <div class="bg-popup"></div>
+
+            <div class="button-list">
+                <div class="button-item">
+                    <button class="btn-popup news" data-name="news">News</button>
+                </div>
+                <div class="button-item">
+                    <button class="btn-popup about" data-name="about">About</button>
+                </div>
+                <div class="button-item">
+                    <button class="btn-popup contact" data-name="contact">Contact</button>
+                </div>
+                <div class="button-item">
+                    <button class="btn-popup about" data-name="name">Name</button>
+                </div>
+                <div class="button-item">
+                    <button class="btn-popup contact" data-name="mysql">MySql</button>
+                </div>
+            </div>
+
+            <div class="popup-list">
+                <div class="popup-block" data-name="news">
+                    <span class="close">&times;</span>
+                    <h1>news</h1>
+                    <p>Polish PM Opposes EU Parliament's Directive on Digital Copyright Rules.</p>
+                </div>
+                <div class="popup-block" data-name="about">
+                    <span class="close">&times;</span>
+                    <h1>about</h1>
+                </div>
+                <div class="popup-block" data-name="contact">
+                    <span class="close">&times;</span>
+                    <h1>contact</h1>
+                    <p>Contact Online supports QR codes which are a great way to allow customers to request information on particular models.</p>
+                </div>
+                <div class="popup-block" data-name="name">
+                    <span class="close">&times;</span>
+                    <h1>Name</h1>
+                </div>
+                <div class="popup-block" data-name="mysql">
+                    <span class="close">&times;</span>
+                    <h1>MySql</h1>
+                </div>
+            </div>
+
+    <script>
+        
+        var mainBlock = document.body.querySelector('.button-list');
+        var btn = document.body.querySelectorAll('.btn-popup');
+        var bgPopUp = document.body.querySelector('.bg-popup');
+        var closePopUpBtn = document.body.querySelectorAll('.close');
+        var blockPop = document.body.querySelectorAll('.popup-block');
+
+        function showPopUp(itemBtnShow, itemPopup){
+            for(var i = 0; i < itemBtnShow.length; i++){
+                itemBtnShow[i].addEventListener('click', function(event){
+                    var commonName = event.target.dataset.name;
+
+                    itemPopup.forEach(function(popupEvent) {
+
+                        if(commonName === popupEvent.dataset.name){
+                            bgPopUp.classList.add('show-popup');
+                            popupEvent.classList.add('show-popup');
+                        }
+                    });
+                });
+            }
+        }
+
+        function closePopUp(itemBgPopup, itemBtnClose){
+            itemBgPopup.addEventListener('click', function(event){
+                bgPopUp.classList.remove('show-popup');
+
+                blockPop.forEach(function(item) {
+                    item.classList.remove('show-popup');
+                });
+            });
+
+            for(var i = 0; i <itemBtnClose.length; i++){
+                itemBtnClose[i].addEventListener('click', function(event){
+                    bgPopUp.classList.remove('show-popup');
+
+                    blockPop.forEach(function(item) {
+
+                        item.classList.remove('show-popup');
+                    });
+                });
+            }
+        }
+
+        showPopUp(btn, blockPop);
+        closePopUp(bgPopUp, closePopUpBtn);
+
+    </script>
+</body>
+</html>
